@@ -45,6 +45,11 @@ RUN dnf debuginfo-install -y \
     xxhash-libs \
     nmap-ncat \
     iptables \
+    poetry \
+    which \
+    valgrind \
+    valgrind-scripts \
+    valgrind-gdb \
     libdeflate && \
     dnf clean all
 
@@ -115,3 +120,13 @@ document rs
     Runs the Scylla binary with --smp 1 and --developer-mode 1.
 end
 EOF
+
+# Add run-validator
+RUN cat > /usr/local/bin/run-validator << 'EOF'
+#!/bin/bash -x
+
+/home/karolnowacki/Projects/Scylla/vector-store/scripts/run-validator-with-scylla-unshare /home/karolnowacki/Projects/Scylla/scylladb/build/debug/scylla /home/karolnowacki/Projects/Scylla/vector-store/target/debug/vector-store  /home/karolnowacki/Projects/Scylla/vector-store/target/debug/vector-search-validator --scylla-default-conf /home/karolnowacki/Projects/Scylla/scylladb/conf/scylla.yaml $@
+
+EOF
+
+RUN chmod +x /usr/local/bin/run-validator
