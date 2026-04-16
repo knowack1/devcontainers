@@ -86,10 +86,10 @@ RUN echo "max_size = 20.0G" > /etc/ccache.conf && \
 RUN cat > /usr/local/bin/vs-compile << 'EOF'
 #!/bin/bash -x
 
-MODE=$([[ -z $1 ]] && echo "debug" || echo "$1")
+MODE=$([[ -z $1 ]] && echo "dev" || echo "$1")
 BASE=./build/${MODE}
 pushd /workspaces/scylladb
-    ninja -j20 ${BASE}/test/vector_search/vector_store_client_test ${BASE}/test/vector_search/load_balancer_test ${BASE}/test/vector_search/client_test
+    ninja -j20 ${BASE}/test/vector_search/vector_store_client_test ${BASE}/test/vector_search/load_balancer_test ${BASE}/test/vector_search/client_test ${BASE}/test/vector_search/rescoring_test ${BASE}/test/vector_search/filter_test
     RET=$?
 popd
 exit ${RET}
@@ -101,7 +101,7 @@ RUN chmod +x /usr/local/bin/vs-compile
 RUN cat > /usr/local/bin/vs-test << 'EOF'
 #!/bin/bash -x
 
-MODE=$([[ -z $1 ]] && echo "debug" || echo "$1")
+MODE=$([[ -z $1 ]] && echo "dev" || echo "$1")
 pushd /workspaces/scylladb
     pytest --mode=${MODE} -n 10 test/vector_search
 popd

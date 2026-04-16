@@ -5,10 +5,10 @@
     },
     "mounts": [
         "type=bind,source=/home/karolnowacki/Projects/Scylla,target=/home/karolnowacki/Projects/Scylla",
-        "type=bind,source=/home/karolnowacki/.ccache,target=/var/cache/ccache"
+        "type=bind,source=/home/karolnowacki/.ccache,target=/var/cache/ccache",
+        "type=bind,source=/home/karolnowacki/.claude,target=/home/karolnowacki/.claude"
     ],
     "runArgs": [
-        "--name=scylladb-sdk-container",
         "--cap-add=SYS_PTRACE",
         "--cap-add=SYS_ADMIN",
         "--privileged",
